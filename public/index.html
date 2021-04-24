@@ -3,65 +3,30 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Anime Tier List</title>
+    <title>Transaction</title>
 <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 </head>
 
 <body>
-<h2>Ultimate Anime Tier List</h2>
+<h2>Transaction</h2>
 <div class="grid-container">
-   
 
-
-<div  class="grid-item">
-    <h3>Anime List</h3>
-    <button type="button" id=get>SHOW LIST</button>
-    <ul id="listUl"></ul>
-</div>
-   
-   
-   
-   
     <div  class="grid-item">
-        <h3>Add a new Anime</h3>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="fname"><br><br>
-        <label for="summary">Summary:</label>
-        <input type="text" id="summary" name="fname"><br><br>
-        <label for="ranking">Rating(1-10):</label>
-        <input type="text" id="ranking" name="fname"><br><br>
-        <button type="button" id=submit>SUBMIT</button>
+        <h3>Order Info</h3>
+        <label for="storeid">StoreID:</label>
+        <input type="text" id="storeid" name="store"><br><br>
+        <label for="salespersonid">SalesPersonID:</label>
+        <input type="text" id="salespersonid" name="salesperson"><br><br>
+        <label for="cdid">CdID:</label>
+        <input type="text" id="cdid" name="cd"><br><br>
+        <label for="pricepaid">PricePaid:</label>
+        <input type="text" id="pricepaid" name="price"><br><br>
+        <button type="button" id="button1">CREATE</button>
+        <button type="button" id="button2">SUBMIT-ONE</button>
+        <button type="button" id="button3">SUBMIT500</button>
        
-    </div>
-
-   
-
-    <div  class="grid-item">
-        <h3>Delete Anime by Name</h3>
-        <div>
-            Enter Anime name here:  <input type="text" id="deleteName"><br><br>
-            <button type="button" id=delete>DELETE</button><br>
-        </div>
-    </div>
-
-   
-    <div  class="grid-item">
-        <h3>Edit Anime Entry</h3>
-        <div>
-            Enter Anime name here:  <input type="text" id="modName"><br><br>
-            <button type="button" id=find>FIND</button><br>
-        </div>
-        <div>
-            <h3>Edit these fields</h3>
-        <input type="text" id="mname" ><br><br>
-        <input type="text" id="msummary" ><br><br>
-        <input type="text" id="mranking" ><br><br>
-        <input type="text" id="mwatched" ><br><br>
-        <button type="button" id=msubmit>SUBMIT</button>
-        </div>
-   
     </div>
 </div>
 
