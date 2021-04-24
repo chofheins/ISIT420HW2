@@ -1,154 +1,66 @@
 
-function Anime(pName, pSummary, pRanking) {
-    this.name= pName;
-    this.summary = pSummary;
-    this.ranking = pRanking;
-    this.watched = false;
+function Order(pStoreID, pSalesPersonID, pCdID, pPricePaid) {
+    this.storeID= pStoreID;
+    this.salesPersonID = pSalesPersonID;
+    this.cdID = pCdID;
+    this.pricePaid = pPricePaid;
   }
-  var ClientNotes = [];  // our local copy of the cloud data
 
 
 document.addEventListener("DOMContentLoaded", function (event) {
 
-    document.getElementById("submit").addEventListener("click", function () {
-        var tName = document.getElementById("name").value;
-        var tSummary = document.getElementById("summary").value;
-        var tRanking = document.getElementById("ranking").value;
-        var oneAnime = new Anime(tName, tSummary, tRanking);
+    shuffle();
+    document.getElementById("button1").addEventListener("click", function () {
+        shuffle();
+    });
+
+    document.getElementById("button2").addEventListener("click", function () {
+        var tStoreID = document.getElementById("storeid").value;
+        var tSalesPersonID = document.getElementById("salespersonid").value;
+        var tCdID = document.getElementById("cdid").value;
+        var tPricePaid = document.getElementById("pricepaid").value;
+        var oneOrder = new Order(tStoreID, tSalesPersonID, tCdID, tPricePaid);
 
         $.ajax({
-            url: '/NewAnime' ,
+            url: '/' ,
             method: 'POST',
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify(oneAnime),
+            data: JSON.stringify(oneOrder),
             success: function (result) {
-                console.log("added new anime")
+                console.log("added new Order")
             }
 
         });
     });
 
-    document.getElementById("get").addEventListener("click", function () {
-        updateList()
-    });
-  
-
-
-    document.getElementById("delete").addEventListener("click", function () {
-        
-        var whichAnime = document.getElementById('deleteName').value;
-        var idToDelete = "";
-        for(i=0; i< ClientNotes.length; i++){
-            if(ClientNotes[i].name === whichAnime) {
-                idToDelete = ClientNotes[i]._id;
-           }
-        }
-        
-        if(idToDelete != "")
-        {
-                     $.ajax({  
-                    url: 'DeleteAnime/'+ idToDelete,
-                    type: 'DELETE',  
-                    contentType: 'application/json',  
-                    success: function (response) {  
-                        console.log(response);  
-                    },  
-                    error: function () {  
-                        console.log('Error in Operation');  
-                    }  
-                });  
-        }
-        else {
-            console.log("no matching Subject");
-        } 
-    });
-
-
-
-    document.getElementById("msubmit").addEventListener("click", function () {
-        var tName = document.getElementById("mname").value;
-        var tSummary = document.getElementById("msummary").value;
-        var tRanking = document.getElementById("mranking").value;
-        var oneAnime = new Anime(tName, tSummary, tRanking);
-        oneAnime.watched =  document.getElementById("mwatched").value;
-        
-            $.ajax({
-                url: 'UpdateAnime/'+idToFind,
-                type: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(oneAnime),
-                    success: function (response) {  
-                        console.log(response);  
-                    },  
-                    error: function () {  
-                        console.log('Error in Operation');  
-                    }  
-                });  
-            
-       
-    });
-
-
-    
-    var idToFind = ""; // using the same value from the find operation for the modify
-    // find one to modify
-    document.getElementById("find").addEventListener("click", function () {
-        var tName = document.getElementById("modName").value;
-         idToFind = "";
-        for(i=0; i< ClientNotes.length; i++){
-            if(ClientNotes[i].name === tName) {
-                idToFind = ClientNotes[i]._id;
-           }
-        }
-        console.log(idToFind);
- 
-        $.get("/FindAnime/"+ idToFind, function(data, status){ 
-            console.log(data[0].name);
-            document.getElementById("mname").value = data[0].name;
-            document.getElementById("msummary").value= data[0].summary;
-            document.getElementById("mranking").value = data[0].ranking;
-            document.getElementById("mwatched").value = data[0].watched;
-           
-
-        });
-    });
-
-    // get the server data into the local array
-    updateList();
-
 });
 
+function shuffle() {
+    var salesPersonID = Math.floor(Math.random() * 24) + 1; 
+    var storeID = new Array(98053 , 98007, 98077, 98055, 98011, 98046);
+    var cdID = new Array(123456, 123654, 321456, 321654, 654123, 654321, 543216, 354126, 621453, 623451);
+    var pricePaid = Math.floor(Math.random() * 11) + 5;
 
-function updateList() {
-var ul = document.getElementById('listUl');
-ul.innerHTML = "";  // clears existing list so we don't duplicate old ones
+    var storeIndex = (closestInteger(salesPersonID, 4));
 
-//var ul = document.createElement('ul')
+    document.getElementById("storeid").defaultValue = storeID[storeIndex];
+    document.getElementById("salespersonid").defaultValue = salesPersonID;
+    document.getElementById("cdid").defaultValue = cdID[Math.floor(Math.random() * cdID.length)];
+    document.getElementById("pricepaid").defaultValue = pricePaid;
 
-$.get("/Anime", function(data, status){  // AJAX get
-    ClientNotes = data;  // put the returned server json data into our local array
-
-    // sort array by one property
-    ClientNotes.sort(compare);  // see compare method below
-    console.log(data);
-    //listDiv.appendChild(ul);
-    ClientNotes.forEach(ProcessOneAnime); // build one li for each item in array
-    function ProcessOneAnime(item, index) {
-        var li = document.createElement('li');
-        ul.appendChild(li);
-
-        li.innerHTML=li.innerHTML + "<b>" + item.name + "</b>" + "<br />" + "Rating: " + item.ranking + "/10  " + "<br />" + "Summary: " + item.summary + "<br />" + "Watched? "+ item.watched + "<br />";
-    }
-});
 }
 
-function compare(a,b) {
-    if (a.watched == false && b.watched== true) {
-        return -1;
+function closestInteger(a, b) {
+    var d;
+    var c1 = a - (a % b);
+    var c2 = (a + b) - (a % b);
+    if (c1 == a) {
+        d = (c1 / b) - 1;
+    } 
+    else {
+        d = (c2 / b) - 1
     }
-    if (a.watched == false && b.watched== true) {
-        return 1;
-    }
-    return 0;
+    return ((d < 0) ? 0 : d);
 }
+
