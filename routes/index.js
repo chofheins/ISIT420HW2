@@ -61,6 +61,7 @@ router.post('/NewOrder', function(req, res) {
     });
 });
 
+
 function addPurchaseInfo(req, res) {
     hourPurch += (Math.floor(Math.random() * 5) + 1);
     if (hourPurch > 23) {
