@@ -34,6 +34,27 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
     });
 
+    document.getElementById("button3").addEventListener("click", function () {
+        for (i=0;i<500;i++) {
+            shuffle();
+            var tStoreID = document.getElementById("storeid").value;
+            var tSalesPersonID = document.getElementById("salespersonid").value;
+            var tCdID = document.getElementById("cdid").value;
+            var tPricePaid = document.getElementById("pricepaid").value;
+            var oneOrder = new Order(tStoreID, tSalesPersonID, tCdID, tPricePaid);
+            
+            $.ajax({
+                url: '/NewOrder' ,
+                method: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(oneOrder),
+                success: function (result) {
+                    console.log("added new Order")
+                }
+            });
+        }
+    });
 });
 
 function shuffle() {
