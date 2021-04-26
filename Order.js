@@ -9,27 +9,27 @@ const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
   StoreID: {
-    type: Number,
+    type: String,
     required: true
   },
   SalesPersonID: {
-    type: Number,
+    type: String,
     required: true
   },
   CdID: {
-    type: Number,
+    type: String,
     required: true
   },
   PricePaid: {
-    type: Number,
+    type: String,
     required: true
   },
   HourPurch: {
-    type: Number,
+    type: String,
     required: true
   },
   DayPurch: {
-    type: Number,
+    type: String,
     required: true
   }
 });
