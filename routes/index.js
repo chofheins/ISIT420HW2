@@ -40,17 +40,24 @@ var dayPurch = 0;
 router.post('/', function(req, res) {
 
     addPurchaseInfo(req, res);
-    //console.log(req.body);
+    console.log(req.body);
 
 });
 
 router.post('/NewOrder', function(req, res) {
-    addPurchaseInfo(req, res);
 
-    let oneNewOrder = new Order(req.body);  // call constuctor in Order code that makes a new mongo Order object
+    let oneNewOrder = new Order();  
+    // when using Order(req.body) oneNewOrder would not initiate and it would only work when manually assigning values
+    addPurchaseInfo(req, res);
+    oneNewOrder.StoreID = req.body.storeID;
+    oneNewOrder.SalesPersonID = req.body.salesPersonID;
+    oneNewOrder.CdID = req.body.cdID;
+    oneNewOrder.PricePaid = req.body.pricePaid;
+    oneNewOrder.HourPurch = hourPurch;
+    oneNewOrder.DayPurch = dayPurch;
     console.log(req.body);
     oneNewOrder.save((err, order) => { //what is order and where is it coming from
-        console.log(order);
+        console.log(oneNewOrder);
         if (err) {
             res.status(500).send(err);
         }
@@ -73,7 +80,7 @@ function addPurchaseInfo(req, res) {
     req.body.hourPurch = hourPurch;
     req.body.dayPurch = dayPurch;
     //console.log(req.body);
-    return req.body;
+    //return req.body;
 
 }
 module.exports = router;
